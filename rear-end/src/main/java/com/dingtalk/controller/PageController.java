@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PageController {
 
     @GetMapping("/toLearn")
-    public String toLearn(@RequestParam("bizId") String bizId){
-        return "redirect:index.html?bizId=" + bizId;
+    public String toLearn(@RequestParam("bizId") String bizId, @RequestParam("origin") String origin){
+        return "redirect:" + origin + "/index.html?bizId=" + bizId;
     }
 }

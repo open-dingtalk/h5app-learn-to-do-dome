@@ -74,7 +74,7 @@ function ToDoFormBoard(props) {
                 <div className="form-row-label">任务链接</div>
                 <div className="form-row-content">
                   <input name="url" className="input" placeholder="输入任务链接"
-                         value={props.form.url}
+                         value={props.toWorkUrl}
                          onChange={props.onChange}
                   />
                 </div>
@@ -146,7 +146,8 @@ class App extends React.Component{
         formContent:"学习内容"
       },
       bizId:'',
-      finish:false
+      finish:false,
+      toWorkUrl:''
     };
   }
 
@@ -186,6 +187,14 @@ class App extends React.Component{
 
   render() {
     let param = this.props.location.search;
+    if(this.state.toWorkUrl === ''){
+      let origin = window.location.origin;
+      let toWorkUrl = origin + this.state.form.url;
+      this.setState({
+        toWorkUrl: toWorkUrl
+      })
+      console.log("toWorkUrl" , toWorkUrl);
+    }
     if(param){
       if(this.state.userId === ""){
         this.login();
@@ -236,7 +245,7 @@ class App extends React.Component{
                     form={this.state.form}
                     onChange={(e) => this.updateFormData(e)}
                     onClick={(e) => this.newWorkRecord(e)}
-
+                    toWorkUrl={this.state.toWorkUrl}
                 />
               </form>
             </div>
@@ -253,8 +262,8 @@ class App extends React.Component{
         this.setState({form: form});
         break;
       case "url":
-        form.url = e.target.value;
-        this.setState({form: form});
+        let toWorkUrl = e.target.value;
+        this.setState({toWorkUrl: toWorkUrl});
         break;
       case "createTime":
         form.createTime = e.target.value;
@@ -274,6 +283,8 @@ class App extends React.Component{
     let ids = this.state.ids;
     let data = this.state.form;
     data.ids = ids;
+    data.url = this.state.toWorkUrl;
+    data.origin = window.location.origin;
     // alert(JSON.stringify(data));
     axios.post(this.state.domain + "/learnToDo/new",
       JSON.stringify(data),{headers:{"Content-Type":"application/json"}}

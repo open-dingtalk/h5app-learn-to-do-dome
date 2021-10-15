@@ -13,6 +13,7 @@ import com.dingtalk.service.RoleManager;
 import com.dingtalk.service.UserManager;
 import com.dingtalk.service.WorkRecordManager;
 import com.dingtalk.util.AccessTokenUtil;
+import com.dingtalk.util.HostUtil;
 import com.dingtalk.util.TimeUtil;
 import com.taobao.api.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,14 @@ public class LearnToDoController {
     @PostMapping("/new")
     public RpcServiceResult newLearnToDo(@RequestBody Map paramMap) {
         try {
+            String origin = paramMap.get("origin").toString();
             // 待办时间
             Long createTime = TimeUtil.stringDateToTimestamp(paramMap.get("createTime").toString());
             // 待办标题
             String title = paramMap.get("title").toString();
             // 任务链接
             String url = paramMap.get("url").toString();
+            url = url + HostUtil.getUrlSymbol(url) + HostUtil.getOriginUrlParam(origin);
             // 表单标题
             String formTitle = paramMap.get("formTitle").toString();
             // 表单内容
