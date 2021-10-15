@@ -1,7 +1,9 @@
 package com.dingtalk.controller;
 
+import com.dingtalk.config.AppConfig;
 import com.dingtalk.model.RpcServiceResult;
 import com.dingtalk.service.UserManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -11,6 +13,7 @@ import java.util.Map;
 /**
  * 企业内部用户（免）登录
  */
+@Slf4j
 @RestController
 public class LoginController {
 
@@ -51,5 +54,15 @@ public class LoginController {
             ex.printStackTrace();
             return RpcServiceResult.getFailureResult("-1", "login exception");
         }
+    }
+
+    /**
+     * 获取corpId
+     * @return
+     */
+    @RequestMapping(value = "/getCorpId", method = RequestMethod.GET)
+    public String getCorpId() {
+        log.info("coroId:{}", AppConfig.getCorpId());
+        return AppConfig.getCorpId();
     }
 }
