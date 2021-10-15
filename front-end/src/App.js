@@ -366,7 +366,9 @@ class App extends React.Component{
             setTimeout(function () {
               _this.setState({
                 userId:userId,
-                userName:userName
+                userName:userName,
+                showLogin: false,
+                showRoleList: true
               })
             }, 0)
           } else {
