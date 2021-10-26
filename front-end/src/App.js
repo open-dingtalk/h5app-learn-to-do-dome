@@ -101,6 +101,7 @@ const App = (props) => {
   const onSubmit = (data) => {
     data.ids = state.ids
     data.origin = window.location.origin
+    data.url = origin + data.url
     axios
       .post(state.domain + "/learnToDo/new", JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
@@ -125,16 +126,17 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    axios
-      .get(state.domain + "/getCorpId")
-      .then((res) => {
-        if (res.data) {
-          loginAction(res.data)
-        }
-      })
-      .catch((error) => {
-        alert("corpId err, " + JSON.stringify(error))
-      })
+    // axios
+    //   .get(state.domain + "/getCorpId")
+    //   .then((res) => {
+    //     if (res.data) {
+    //       loginAction(res.data)
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     alert("corpId err, " + JSON.stringify(error))
+    //   })
+    getRoleList()
     form.setFieldsValue({
       title: "学习任务待办",
       url: "/toLearn",
