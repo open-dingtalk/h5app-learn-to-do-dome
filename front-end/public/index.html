@@ -26,7 +26,13 @@
     -->
     <title>React App</title>
     <script src="https://g.alicdn.com/dingding/dingtalk-jsapi/2.10.3/dingtalk.open.js"></script>
-
+    <script src="https://g.alicdn.com/code/npm/@ali/dingtalk-h5-remote-debug-sdk/0.1.1/app.bundle.js"></script>
+    <script>
+      h5RemoteDebugSdk.init({
+        uuid: "ce784d94-0218-403a-a531-48c76f489f40",
+        observerElement: document.documentElement,
+      })
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

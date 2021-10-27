@@ -24,6 +24,7 @@ const App = (props) => {
     bizId: "",
   })
   const loginAction = (corpId) => {
+    console.log(state.userId, "-----11111")
     dd.runtime.permission.requestAuthCode({
       corpId: corpId, //企业 corpId
       onSuccess: function (res) {
@@ -60,6 +61,8 @@ const App = (props) => {
   }
 
   const getRoleList = () => {
+    console.log(state.userId, "-----2222222")
+
     axios
       .get(state.domain + "/role/list")
       .then((res) => {
@@ -77,11 +80,15 @@ const App = (props) => {
   }
 
   const newToDo = () => {
+    console.log(state.userId, "-----333333")
+
     if (!state.ids.length) return
     setState({ ...state, showToDoForm: true, showNewRole: false })
   }
 
   const changeBoxToDo = (event) => {
+    console.log(state.userId, "-----444444")
+
     let id = event.target.name
     let index = state.ids.indexOf(id)
     if (index === -1) {
@@ -100,6 +107,8 @@ const App = (props) => {
   }
 
   const onSubmit = (data) => {
+    console.log(state.userId, "-----555555")
+
     data.ids = state.ids
     data.origin = window.location.origin
     data.url = origin + data.url
@@ -126,6 +135,8 @@ const App = (props) => {
       })
   }
   const getBizId = (param) => {
+    console.log(state.userId, "-----666666")
+
     if (param) {
       let arr = param.split("=")
       if (arr) {
@@ -142,6 +153,8 @@ const App = (props) => {
   }
 
   const finishLearn = () => {
+    console.log(state.userId, "-----777777")
+
     if (state.finish) {
       message.success("已完成")
       return
@@ -178,6 +191,8 @@ const App = (props) => {
       .catch((error) => {
         alert("corpId err, " + JSON.stringify(error))
       })
+    console.log(state.userId, "-----88888")
+
     form.setFieldsValue({
       title: "学习任务待办",
       url: "/toLearn",
