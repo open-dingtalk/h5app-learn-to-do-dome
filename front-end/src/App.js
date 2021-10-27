@@ -13,13 +13,15 @@ const App = (props) => {
   const [state, setState] = useState({
     domain: "",
     authCode: "",
-    userId: "0920633803789034",
+    userId: "",
     userName: "",
     showNewRole: true, //角色列表
     showToDoForm: false, //任务表单
     roleList: [],
     ids: [],
     roles: [],
+    finish: false,
+    bizId: "",
   })
   const loginAction = (corpId) => {
     dd.runtime.permission.requestAuthCode({
@@ -75,7 +77,7 @@ const App = (props) => {
       })
   }
 
-  const newToDo = (event) => {
+  const newToDo = () => {
     if (!state.ids.length) return
     setState({ ...state, showToDoForm: true, showNewRole: false })
   }
@@ -124,19 +126,59 @@ const App = (props) => {
         alert(JSON.stringify(error))
       })
   }
+  const getBizId = (param) => {
+    if (param) {
+      let arr = param.split("=")
+      if (arr) {
+        if (arr[0].indexOf("?bizId") !== -1) {
+          setState({
+            ...state,
+            bizId: arr[1],
+          })
+        }
+      }
+    } else {
+      alert("param error!!!", param)
+    }
+  }
+
+  const finishLearn = () => {
+    if (state.finish) {
+      message.success("已完成")
+      return
+    }
+    axios
+      .post(
+        state.domain + "/learnToDo/update",
+        {
+          userId: state.userId,
+          bizId: state.bizId,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        message.success("完成学习")
+        setState({
+          ...state,
+          finish: true,
+        })
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error))
+      })
+  }
 
   useEffect(() => {
-    // axios
-    //   .get(state.domain + "/getCorpId")
-    //   .then((res) => {
-    //     if (res.data) {
-    //       loginAction(res.data)
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert("corpId err, " + JSON.stringify(error))
-    //   })
-    getRoleList()
+    axios
+      .get(state.domain + "/getCorpId")
+      .then((res) => {
+        if (res.data) {
+          loginAction(res.data)
+        }
+      })
+      .catch((error) => {
+        alert("corpId err, " + JSON.stringify(error))
+      })
     form.setFieldsValue({
       title: "学习任务待办",
       url: "/toLearn",
@@ -145,7 +187,27 @@ const App = (props) => {
       formContent: "学习内容",
     })
   }, [])
-  return (
+
+  return props.location.search ? (
+    <div className="App">
+      {(() => {
+        if (state.bizId === "") {
+          getBizId(props.location.search)
+        }
+        return state.finish ? (
+          <div className="finishOrLearn">已完成</div>
+        ) : (
+          <div className="finishOrLearn">
+            <p>学习中。。。</p>
+            <br />
+            <Button type="primary" onClick={finishLearn}>
+              完成学习
+            </Button>
+          </div>
+        )
+      })()}
+    </div>
+  ) : (
     <div className="App">
       <h5 className="title">
         {(() => {

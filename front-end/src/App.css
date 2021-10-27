@@ -17,6 +17,11 @@
   text-align: center;
 }
 
+.finishOrLearn {
+  text-align: center;
+  line-height: 100px;
+}
+
 .checkbox {
   width: 100%;
 }
