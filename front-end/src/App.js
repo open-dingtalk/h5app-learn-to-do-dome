@@ -36,14 +36,13 @@ const App = (props) => {
               let userId = res.data.data.userId
               let userName = res.data.data.userName
               message.success("登录成功，你好" + userName)
-              getRoleList()
-
+              setState({
+                ...state,
+                userId: userId,
+                userName: userName,
+              })
               setTimeout(function () {
-                setState({
-                  ...state,
-                  userId: userId,
-                  userName: userName,
-                })
+                getRoleList()
               }, 0)
             } else {
               message.error(res.data.errorMsg)
