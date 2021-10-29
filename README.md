@@ -13,18 +13,33 @@
 
 
 ## 配置
+### 研发环境准备
 
-**应用首页地址**
+1. 需要有一个钉钉注册企业，如果没有可以创建：https://oa.dingtalk.com/register_new.htm#/
 
-![image-20210630152200698](https://img.alicdn.com/imgextra/i1/O1CN01WlKzZx1ReKgeQbVud_!!6000000002136-2-tps-948-547.png)
+2. 成为钉钉开发者，参考文档：https://developers.dingtalk.com/document/app/become-a-dingtalk-developer
 
----
+3. 登录钉钉开放平台后台创建一个第三方企业H5微应用： https://open-dev.dingtalk.com/fe/app#/isv/app
 
-**申请通讯录和任务待办权限**
+4. 配置应用
 
-![image-20210630152910450](https://img.alicdn.com/imgextra/i2/O1CN01EdcNxb1oNbNhitP2z_!!6000000005213-2-tps-1200-548.png)
+   
+   配置开发管理，参考文档：https://developers.dingtalk.com/document/app/configure-orgapp
 
+   - **此处配置“应用首页地址”需公网地址，若无公网ip，可使用钉钉内网穿透工具：**
 
+     https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration
+     
+
+![1](https://img.alicdn.com/imgextra/i4/O1CN01nIr7vn1YJuMMtMuqs_!!6000000003039-2-tps-1135-551.png)
+
+配置相关权限：https://developers.dingtalk.com/document/app/address-book-permissions
+
+本demo使用接口相关权限：
+
+​	”成员信息读权限“、“通讯录部门信息读权限”、“通讯录部门成员读权限”、“待办应用中待办写权限”
+
+![2](https://img.alicdn.com/imgextra/i4/O1CN01nIr7vn1YJuMMtMuqs_!!6000000003039-2-tps-1135-551.png)
 
 ## 运行
 
@@ -34,9 +49,22 @@
 git clone https://github.com/open-dingtalk/h5app-learn-to-do-dome.git
 ```
 
-**修改企业corpId**
+### 获取相应参数
 
-![image-20210630153418289](https://img.alicdn.com/imgextra/i3/O1CN01vijBDR1mvNM1scp5F_!!6000000005016-2-tps-822-539.png)
+获取到以下参数，修改后端application.yaml
+
+```yaml
+app:
+  app_key: *****
+  app_secret: *****
+  agent_id: *****
+  corp_id: *****
+```
+
+参数获取方法：登录开发者后台
+
+1. 获取corpId：https://open-dev.dingtalk.com/#/index
+2. 进入应用开发-企业内部开发-点击进入应用-基础信息-获取appKey、appSecret、agentId
 
 **依次执行以下命令进行打包**
 
@@ -48,13 +76,14 @@ npm run build
 
 **将build中打包好静态资源文件放入后端服务**
 
-![image-20210630154332686](https://img.alicdn.com/imgextra/i4/O1CN013FCWrB20HRRUoC36L_!!6000000006824-2-tps-357-468.png)
+![image-20210630154332686](https://img.alicdn.com/imgextra/i2/O1CN01QLp1Qw1TCVrPddfjZ_!!6000000002346-2-tps-322-521.png)
 
-**修改后端配置中app_key和app_secret**
 
-![image-20210630154520092](https://img.alicdn.com/imgextra/i3/O1CN01SdZIhb1gHdIEPAre7_!!6000000004117-2-tps-938-520.png)
 
-**启动rear-end，使用钉钉访问服务**
+### 启动项目
+
+- 启动springboot
+- 移动端钉钉点击工作台，找到创建的应用，进入应用
 
 
 
@@ -62,11 +91,15 @@ npm run build
 
 角色页面
 
-![image-20210630155304017](https://img.alicdn.com/imgextra/i3/O1CN01rJJkIt1GqHEwssHIg_!!6000000000673-2-tps-334-140.png)
+![3](https://img.alicdn.com/imgextra/i1/O1CN01f1eza91izifxWDNMz_!!6000000004484-2-tps-444-584.png)
 
-创建任务页面
+选中角色
 
-![image-20210630155347875](https://img.alicdn.com/imgextra/i1/O1CN01SYWMFm1whJLovgx9Z_!!6000000006339-2-tps-335-325.png)
+![](https://img.alicdn.com/imgextra/i4/O1CN01Bu7GRJ1l6hwwJmxkL_!!6000000004770-2-tps-440-303.png)
+
+创建待办页面
+
+![45](https://img.alicdn.com/imgextra/i1/O1CN01OYUcJA1gN84UepvDG_!!6000000004129-2-tps-446-757.png)
 
 钉钉查看待办
 
@@ -74,7 +107,7 @@ npm run build
 
 点击待办进入任务链接
 
-![image-20210630155647082](https://img.alicdn.com/imgextra/i4/O1CN01jzFOCI24df7b1xsCp_!!6000000007414-2-tps-330-169.png)
+![image-20210630155647082](https://img.alicdn.com/imgextra/i4/O1CN01Ei2ivC24IavPbgfGY_!!6000000007368-2-tps-444-422.png)
 
 ---
 
