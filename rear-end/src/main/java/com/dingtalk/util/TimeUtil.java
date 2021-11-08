@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class TimeUtil {
 
-    private static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    private static String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
 
     /**
      * 字符串时间转时间戳
@@ -18,7 +18,7 @@ public class TimeUtil {
      * @throws ParseException
      */
     public static long stringDateToTimestamp(String dateStr) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+        SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD_HH_MM);
         Date date = formatter.parse(dateStr);
         return date.getTime();
     }
