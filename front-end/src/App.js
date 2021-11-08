@@ -236,7 +236,7 @@ const App = (props) => {
                 if (state.showNewRole) {
                   return "角色列表"
                 } else if (state.showToDoForm) {
-                  return `学习任务代办人：${state.roles}`
+                  return `学习任务待办角色：${state.roles}`
                 }
               })()}
             </h5>
