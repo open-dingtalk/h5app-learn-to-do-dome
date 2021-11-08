@@ -144,11 +144,10 @@ const App = (props) => {
   const getBizId = () => {
     const bizId = getUrlSearchParam("bizId")
     const userId = getUrlSearchParam("id")
-
+    sessionStorage.setItem("userId", userId)
     setState({
       ...state,
-      bizId,
-      userId,
+      bizId
     })
   }
 
