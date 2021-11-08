@@ -123,6 +123,7 @@ const App = (props) => {
           showNewRole: true,
           showToDoForm: false,
           ids: [],
+          roles:[]
         })
       })
       .catch((error) => {
