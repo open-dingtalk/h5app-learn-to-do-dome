@@ -13,7 +13,6 @@ const App = (props) => {
   const [state, setState] = useState({
     domain: "",
     authCode: "",
-    userId: "",
     userName: "",
     showNewRole: true, //角色列表
     showToDoForm: false, //任务表单
@@ -24,7 +23,6 @@ const App = (props) => {
     bizId: "",
   })
   const loginAction = (corpId) => {
-    console.log(state.userId, "-----11111")
     dd.runtime.permission.requestAuthCode({
       corpId: corpId, //企业 corpId
       onSuccess: function (res) {
@@ -35,11 +33,11 @@ const App = (props) => {
           .then((res) => {
             if (res && res.data.success) {
               let userId = res.data.data.userId
+              sessionStorage.setItem("userId", userId);
               let userName = res.data.data.userName
               message.success("登录成功，你好" + userName)
               setState({
                 ...state,
-                userId: userId,
                 userName: userName,
               })
               setTimeout(function () {
@@ -61,7 +59,6 @@ const App = (props) => {
   }
 
   const getRoleList = () => {
-    console.log(state.userId, "-----2222222")
 
     axios
       .get(state.domain + "/role/list")
@@ -80,14 +77,12 @@ const App = (props) => {
   }
 
   const newToDo = () => {
-    console.log(state.userId, "-----333333")
 
     if (!state.ids.length) return
     setState({ ...state, showToDoForm: true, showNewRole: false })
   }
 
   const changeBoxToDo = (event) => {
-    console.log(state.userId, "-----444444")
 
     let id = event.target.name
     let index = state.ids.indexOf(id)
@@ -107,7 +102,6 @@ const App = (props) => {
   }
 
   const onSubmit = (data) => {
-    console.log(state.userId, "-----555555")
 
     data.ids = state.ids
     data.origin = window.location.origin
@@ -135,7 +129,6 @@ const App = (props) => {
       })
   }
   const getBizId = (param) => {
-    console.log(state.userId, "-----666666")
 
     if (param) {
       let arr = param.split("=")
@@ -153,7 +146,6 @@ const App = (props) => {
   }
 
   const finishLearn = () => {
-    console.log(state.userId, "-----777777")
 
     if (state.finish) {
       message.success("已完成")
@@ -163,7 +155,7 @@ const App = (props) => {
       .post(
         state.domain + "/learnToDo/update",
         {
-          userId: state.userId,
+          userId: sessionStorage.getItem("userId"),
           bizId: state.bizId,
         },
         { headers: { "Content-Type": "application/json" } }
@@ -191,7 +183,6 @@ const App = (props) => {
       .catch((error) => {
         alert("corpId err, " + JSON.stringify(error))
       })
-    console.log(state.userId, "-----88888")
 
     form.setFieldsValue({
       title: "学习任务待办",
