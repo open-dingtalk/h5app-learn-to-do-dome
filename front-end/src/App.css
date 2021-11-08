@@ -12,6 +12,9 @@
   background-color: #fff;
   margin: 0 auto;
 }
+.noneDiv{
+  height: 100px;
+}
 
 .title {
   width: 100%;
