@@ -129,20 +129,27 @@ const App = (props) => {
         alert(JSON.stringify(error))
       })
   }
-  const getBizId = (param) => {
-    if (param) {
-      let arr = param.split("=")
-      if (arr) {
-        if (arr[0].indexOf("?bizId") !== -1) {
-          setState({
-            ...state,
-            bizId: arr[1],
-          })
-        }
-      }
-    } else {
-      alert("param error!!!", param)
+
+  function getUrlSearchParam(key) {
+    var search = window.location.search
+    var arr = !search ? [] : search.substr(1).split("&")
+    var param = {}
+    for (var i = 0, l = arr.length; i < l; i++) {
+      var kv = arr[i].split("=")
+      param[kv[0]] = kv[1]
     }
+    return key ? param[key] || "" : param
+  }
+
+  const getBizId = () => {
+    const bizId = getUrlSearchParam("bizId")
+    const userId = getUrlSearchParam("id")
+
+    setState({
+      ...state,
+      bizId,
+      userId,
+    })
   }
 
   const finishLearn = () => {
@@ -206,7 +213,7 @@ const App = (props) => {
         <div className="App">
           {(() => {
             if (state.bizId === "") {
-              getBizId(props.location.search)
+              getBizId()
             }
             return state.finish ? (
               <div className="finishOrLearn">已完成</div>
