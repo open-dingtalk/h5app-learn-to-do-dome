@@ -263,15 +263,25 @@ const App = (props) => {
             {state.showToDoForm && (
               <div className="padding">
                 <Form form={form} onFinish={onSubmit}>
-                  <Form.Item label="任务标题" name="title">
+                  <Form.Item
+                    label="任务标题"
+                    name="title"
+                    rules={[{ required: true, message: "任务标题必填" }]}
+                  >
                     <Input placeholder="请输入标题" />
                   </Form.Item>
-                  <Form.Item label="任务链接" name="url">
+                  <Form.Item
+                    label="任务链接"
+                    name="url"
+                    rules={[{ required: true, message: "任务链接必填" }]}
+                  >
                     <Input placeholder="请输入任务链接" />
                   </Form.Item>
-                  <Form.Item label="待办时间" name="createTime">
-                    {/* <Input placeholder="输入格式：yyyy-MM-dd hh:mm:ss" /> */}
-                    {/* <div className="table"> */}
+                  <Form.Item
+                    label="待办时间"
+                    name="createTime"
+                    rules={[{ required: true, message: "待办时间必选" }]}
+                  >
                     <Button
                       type="primary"
                       onClick={() => setPickerV(true)}
@@ -279,7 +289,6 @@ const App = (props) => {
                     >
                       {time ? "已选择待办时间" : "选择待办时间"}
                     </Button>
-                    {/* </div> */}
 
                     <DatePicker
                       visible={pickerV}
@@ -302,10 +311,18 @@ const App = (props) => {
                       }}
                     </DatePicker>
                   </Form.Item>
-                  <Form.Item label="学习标题" name="formTitle">
+                  <Form.Item
+                    label="学习标题"
+                    name="formTitle"
+                    rules={[{ required: true, message: "学习标题必填" }]}
+                  >
                     <Input placeholder="请输入学习标题" />
                   </Form.Item>
-                  <Form.Item label="学习内容" name="formContent">
+                  <Form.Item
+                    label="学习内容"
+                    name="formContent"
+                    rules={[{ required: true, message: "学习内容必填" }]}
+                  >
                     <Input placeholder="请输入学习内容" />
                   </Form.Item>
                   <Button htmlType="submit" type="primary">
