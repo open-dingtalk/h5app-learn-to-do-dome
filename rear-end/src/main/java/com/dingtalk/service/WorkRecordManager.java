@@ -28,7 +28,7 @@ public class WorkRecordManager {
      * @return
      * @throws ApiException
      */
-    public OapiWorkrecordAddResponse newLearnToDo(OapiWorkrecordAddRequest request, String title, String content) throws ApiException {
+    public OapiWorkrecordAddResponse newLearnToDo(OapiWorkrecordAddRequest request, String title, String content, String userId) throws ApiException {
         if (request == null) {
             return null;
         }
@@ -46,7 +46,7 @@ public class WorkRecordManager {
         request.setPcOpenType(4L);
         String bizId = RandomUtil.getRandomString(10);
         request.setBizId(bizId);
-        request.setUrl(request.getUrl() + HostUtil.getUrlSymbol(request.getUrl()) + "bizId=" + bizId);
+        request.setUrl(request.getUrl() + HostUtil.getUrlSymbol(request.getUrl()) + "bizId=" + bizId + "&id=" + userId);
         return client.execute(request, accessToken);
     }
 

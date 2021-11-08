@@ -60,12 +60,13 @@ public class LearnToDoController {
                 List<OapiRoleSimplelistResponse.OpenEmpSimple> simplelist = roleManager.getRoleSimplelist(Long.parseLong(id), 0L , 10L);
                 for(OapiRoleSimplelistResponse.OpenEmpSimple openEmpSimple : simplelist){
                     OapiWorkrecordAddRequest request = new OapiWorkrecordAddRequest();
-                    request.setUserid(openEmpSimple.getUserid());
+                    String userid = openEmpSimple.getUserid();
+                    request.setUserid(userid);
                     request.setCreateTime(createTime);
                     request.setTitle(title);
                     request.setUrl(url);
                     // 创建待办
-                    workRecordManager.newLearnToDo(request, formTitle, formContent);
+                    workRecordManager.newLearnToDo(request, formTitle, formContent, userid);
                 }
             }
             return RpcServiceResult.getSuccessResult(null);
