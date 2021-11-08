@@ -46,14 +46,14 @@ start_pierced() {
 }
 
 npm_run_build() {
-  cd ../fronted
+  cd ../front-end
   if [ ! -d "node_modules/" ];then
     npm install
     npm run build
   else
     npm run build
   fi
-  cd ../backend
+  cd ../rear-end
 }
 
 maven_build_package(){
