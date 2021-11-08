@@ -3,10 +3,14 @@ import axios from "axios"
 import "./App.css"
 import react, { useState, useEffect } from "react"
 import { Button, Checkbox, Form, Input, message } from "antd"
+import { DatePicker } from "antd-mobile"
+import moment from "moment"
 import { withRouter } from "react-router-dom"
 
 const App = (props) => {
   const [form] = Form.useForm()
+  const [pickerV, setPickerV] = useState(false)
+  const [time, settime] = useState(null)
   // state.domain 内网穿透工具介绍:
   // https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=app
   // 替换成后端服务域名
@@ -33,7 +37,7 @@ const App = (props) => {
           .then((res) => {
             if (res && res.data.success) {
               let userId = res.data.data.userId
-              sessionStorage.setItem("userId", userId);
+              sessionStorage.setItem("userId", userId)
               let userName = res.data.data.userName
               message.success("登录成功，你好" + userName)
               setState({
@@ -59,7 +63,6 @@ const App = (props) => {
   }
 
   const getRoleList = () => {
-
     axios
       .get(state.domain + "/role/list")
       .then((res) => {
@@ -77,13 +80,11 @@ const App = (props) => {
   }
 
   const newToDo = () => {
-
     if (!state.ids.length) return
     setState({ ...state, showToDoForm: true, showNewRole: false })
   }
 
   const changeBoxToDo = (event) => {
-
     let id = event.target.name
     let index = state.ids.indexOf(id)
     if (index === -1) {
@@ -102,10 +103,10 @@ const App = (props) => {
   }
 
   const onSubmit = (data) => {
-
     data.ids = state.ids
     data.origin = window.location.origin
     data.url = origin + data.url
+    data.createTime = moment(data.createTime).format("YYYY-MM-DD HH:mm")
     axios
       .post(state.domain + "/learnToDo/new", JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
@@ -129,7 +130,6 @@ const App = (props) => {
       })
   }
   const getBizId = (param) => {
-
     if (param) {
       let arr = param.split("=")
       if (arr) {
@@ -146,7 +146,6 @@ const App = (props) => {
   }
 
   const finishLearn = () => {
-
     if (state.finish) {
       message.success("已完成")
       return
@@ -192,90 +191,132 @@ const App = (props) => {
       formContent: "学习内容",
     })
   }, [])
+  const now = new Date()
 
-  return props.location.search ? (
-    <div className="App">
-      {(() => {
-        if (state.bizId === "") {
-          getBizId(props.location.search)
-        }
-        return state.finish ? (
-          <div className="finishOrLearn">已完成</div>
-        ) : (
-          <div className="finishOrLearn">
-            <p>学习中。。。</p>
-            <br />
-            <Button type="primary" onClick={finishLearn}>
-              完成学习
-            </Button>
-          </div>
-        )
-      })()}
-    </div>
-  ) : (
-    <div className="App">
-      <h5 className="title">
-        {(() => {
-          if (state.showNewRole) {
-            return "角色列表"
-          } else if (state.showToDoForm) {
-            return `学习任务代办人：${state.roles}`
-          }
-        })()}
-      </h5>
-      <div className="content">
-        {state.showNewRole && (
-          <div>
-            {state.roleList.map((group, index) => {
-              return (
-                <div className="checkbox">
-                  {group.roles.map((role, i) => (
-                    <div className="check">
-                      <Checkbox
-                        name={role.id}
-                        value={role.name}
-                        onChange={changeBoxToDo}
-                      >
-                        {role.name}
-                      </Checkbox>
-                      <br />
+  return (
+    <div className="content">
+      <div className="header">
+        <img
+          src="https://img.alicdn.com/imgextra/i3/O1CN01Mpftes1gwqxuL0ZQE_!!6000000004207-2-tps-240-240.png"
+          className="headImg"
+        />
+        钉钉模板
+      </div>
+      {props.location.search ? (
+        <div className="App">
+          {(() => {
+            if (state.bizId === "") {
+              getBizId(props.location.search)
+            }
+            return state.finish ? (
+              <div className="finishOrLearn">已完成</div>
+            ) : (
+              <div className="finishOrLearn">
+                <p>学习中。。。</p>
+                <br />
+                <Button type="primary" onClick={finishLearn}>
+                  完成学习
+                </Button>
+              </div>
+            )
+          })()}
+        </div>
+      ) : (
+        <div className="App">
+          <div className="padding">
+            <h5 className="title">
+              {(() => {
+                if (state.showNewRole) {
+                  return "角色列表"
+                } else if (state.showToDoForm) {
+                  return `学习任务代办人：${state.roles}`
+                }
+              })()}
+            </h5>
+            {state.showNewRole && (
+              <div>
+                {state.roleList.map((group, index) => {
+                  return (
+                    <div className="checkbox">
+                      {group.roles.map((role, i) => (
+                        <div className="check">
+                          <Checkbox
+                            name={role.id}
+                            value={role.name}
+                            onChange={changeBoxToDo}
+                          >
+                            {role.name}
+                          </Checkbox>
+                          <br />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )
-            })}
-            {state.ids.length > 0 && (
-              <Button type="primary" onClick={newToDo}>
-                创建待办学习任务
-              </Button>
+                  )
+                })}
+                {state.ids.length > 0 && (
+                  <Button type="primary" onClick={newToDo}>
+                    创建待办学习任务
+                  </Button>
+                )}
+              </div>
+            )}
+            {state.showToDoForm && (
+              <div className="padding">
+                <Form form={form} onFinish={onSubmit}>
+                  <Form.Item label="任务标题" name="title">
+                    <Input placeholder="请输入标题" />
+                  </Form.Item>
+                  <Form.Item label="任务链接" name="url">
+                    <Input placeholder="请输入任务链接" />
+                  </Form.Item>
+                  <Form.Item label="待办时间" name="createTime">
+                    {/* <Input placeholder="输入格式：yyyy-MM-dd hh:mm:ss" /> */}
+                    {/* <div className="table"> */}
+                    <Button
+                      type="primary"
+                      onClick={() => setPickerV(true)}
+                      style={{ marginRight: "12px" }}
+                    >
+                      {time ? "已选择待办时间" : "选择待办时间"}
+                    </Button>
+                    {/* </div> */}
+
+                    <DatePicker
+                      visible={pickerV}
+                      onClose={() => {
+                        setPickerV(false)
+                      }}
+                      min={new Date(now.setHours(now.getHours()))}
+                      precision="minute"
+                      onConfirm={(val, s) => {
+                        settime(val)
+                        form.setFieldsValue({
+                          createTime: val,
+                        })
+                      }}
+                    >
+                      {(value) => {
+                        return value
+                          ? moment(value).format("YYYY-MM-DD HH:mm")
+                          : moment(now).format("YYYY-MM-DD HH:mm")
+                      }}
+                    </DatePicker>
+                  </Form.Item>
+                  <Form.Item label="学习标题" name="formTitle">
+                    <Input placeholder="请输入学习标题" />
+                  </Form.Item>
+                  <Form.Item label="学习内容" name="formContent">
+                    <Input placeholder="请输入学习内容" />
+                  </Form.Item>
+                  <Button htmlType="submit" type="primary">
+                    提交
+                  </Button>
+                </Form>
+              </div>
             )}
           </div>
-        )}
-        {state.showToDoForm && (
-          <div className="content">
-            <Form form={form} onFinish={onSubmit}>
-              <Form.Item label="任务标题" name="title">
-                <Input placeholder="请输入标题" />
-              </Form.Item>
-              <Form.Item label="任务链接" name="url">
-                <Input placeholder="请输入任务链接" />
-              </Form.Item>
-              <Form.Item label="待办时间" name="createTime">
-                <Input placeholder="输入格式：yyyy-MM-dd hh:mm:ss" />
-              </Form.Item>
-              <Form.Item label="学习标题" name="formTitle">
-                <Input placeholder="请输入学习标题" />
-              </Form.Item>
-              <Form.Item label="学习内容" name="formContent">
-                <Input placeholder="请输入学习内容" />
-              </Form.Item>
-              <Button htmlType="submit" type="primary">
-                提交
-              </Button>
-            </Form>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
