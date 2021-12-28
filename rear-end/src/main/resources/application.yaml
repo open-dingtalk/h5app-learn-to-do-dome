@@ -1,9 +1,8 @@
 server:
-  port: 8081
+  port: ${port}
   forward-headers-strategy: FRAMEWORK
 app:
-  app_key: ding1jmkwa4o19bualqh
-  app_secret: ua2qNVhleIx14ld6xgoZqtg84EE94sbizRvCimfXrIqYCeyj7b8QvqYAN8XeyWc0
-  corp_id: ding9f50b15bccd16741
-  agent_id: 1225494379
-
+  app_key: ${appKey}
+  app_secret: ${appSecret}
+  corp_id: ${corpId}
+  agent_id: ${agentId}
