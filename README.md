@@ -6,9 +6,9 @@
 >
 > 项目结构：
 >
-> rear-end：后端springboot模块，请求钉钉开发平台接口，获取企业内部角色、获取角色员工信息、发起待办任务、更新待办任务等。
+> backend：后端springboot模块，请求钉钉开发平台接口，获取企业内部角色、获取角色员工信息、发起待办任务、更新待办任务等。
 >
-> front-end：前端react模块，模拟用户任务页面，展示角色信息，提交任务表单等。
+> frontend：前端react模块，模拟用户任务页面，展示角色信息，提交任务表单等。
 
 
 
@@ -120,7 +120,7 @@ app:
 **依次执行以下命令进行打包**
 
 ```shell
-cd front-end
+cd frontend
 npm install
 npm run build
 ```
