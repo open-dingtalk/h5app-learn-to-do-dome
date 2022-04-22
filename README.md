@@ -19,7 +19,7 @@
 
 2. 成为钉钉开发者，参考文档：https://developers.dingtalk.com/document/app/become-a-dingtalk-developer
 
-3. 登录钉钉开放平台后台创建一个第三方企业H5微应用： https://open-dev.dingtalk.com/fe/app#/isv/app
+3. 登录钉钉开放平台后台创建一个H5应用： https://open-dev.dingtalk.com/#/index
 
 4. 配置应用
 
