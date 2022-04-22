@@ -39,7 +39,7 @@
 
 ​	”成员信息读权限“、“通讯录部门信息读权限”、“通讯录部门成员读权限”、“待办应用中待办写权限”
 
-![2](https://img.alicdn.com/imgextra/i4/O1CN01nIr7vn1YJuMMtMuqs_!!6000000003039-2-tps-1135-551.png)
+![2](https://img.alicdn.com/imgextra/i3/O1CN016WCr6428wDdBhkWi6_!!6000000007996-2-tps-1358-571.png)
 
 ## 脚本启动（推荐）
 
